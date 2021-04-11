@@ -2,6 +2,7 @@ const express = require('express');
 const ejs = require('ejs');
 const readline = require('readline');
 const cp = require('child_process');
+const fs = require('fs');
 
 const app = express();
 
@@ -18,32 +19,23 @@ app.get("/", function(req, res){
 app.post("/", function(req, res){
     let lang = req.body.lang;
     let code = req.body.code;
-
-    
-    code = code.replace(/(\r\n|\n|\r)/gm, "\\n");
-    code = code.replace(/"/gm, '\\"');
-    // console.log(code);
+    let input = req.body.input;
 
     if (lang == "CPP14") {
 
-        let comm = "printf \"" + code + "\" >" + __dirname + "/a.cpp";
-
-        cp.exec(comm, function(err, out, serr){
+        fs.writeFile('a.cpp', code, function(err){
             if (err) {
                 console.log(err);
-            } else if (serr) {
-                console.log(serr);
             } else {
-                console.log(out);
-                
+                console.log("Successfully written to a.cpp");
+
                 //now executing the program present in a.cpp
-                cp.exec("g++ " + __dirname +  "/a.cpp -o a.exe&a.exe", function(error, stdout, stderr){
+                cp.exec("g++ a.cpp -o a.exe&a.exe", function(error, stdout, stderr){
                     if (error) {
-                        console.log(error);
+                        res.send(error);
                     } else if (stderr) {
                         res.send(stderr);
                     } else {
-                        console.log(stdout);
                         res.send(stdout);
                     }
                 });
@@ -52,20 +44,16 @@ app.post("/", function(req, res){
     } 
     else if (lang == "Python3") {
 
-        let comm = "printf \"" + code + "\" >" + __dirname + "/a.py";
-
-        cp.exec(comm, function(err, out, serr){
+        fs.writeFile('a.py', code, function(err){
             if (err) {
                 console.log(err);
-            } else if (serr) {
-                console.log(serr);
             } else {
-                console.log(out);
-                
-                //now executing the program present in a.py
-                cp.exec("python " + __dirname +  "/a.py", function(error, stdout, stderr){
+                console.log("Successfully written to a.py");
+
+                //now executing the program present in a.cpp
+                cp.exec("python a.py", function(error, stdout, stderr){
                     if (error) {
-                        console.log(error);
+                        res.send(error);
                     } else if (stderr) {
                         res.send(stderr);
                     } else {
@@ -76,20 +64,17 @@ app.post("/", function(req, res){
         });
     }
     else {
-        let comm = "printf \"" + code + "\" >" + __dirname + "/a.java";
-
-        cp.exec(comm, function(err, out, serr){
+        
+        fs.writeFile('a.java', code, function(err){
             if (err) {
                 console.log(err);
-            } else if (serr) {
-                console.log(serr);
             } else {
-                console.log(out);
-                
+                console.log("Successfully written to a.java");
+
                 //now executing the program present in a.py
                 cp.exec("javac " + __dirname +  "/a.java & java Main", function(error, stdout, stderr){
                     if (error) {
-                        console.log(error);
+                        res.send(error);
                     } else if (stderr) {
                         res.send(stderr);
                     } else {

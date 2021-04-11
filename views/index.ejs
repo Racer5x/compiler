@@ -10,17 +10,26 @@
     <form action="/" method="POST">
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Paste Your Code here!</label>
-            <textarea class="form-control" name="code" spellcheck="false" id="exampleFormControlTextarea1" rows="30" style="background-color: mediumblue; color: yellow;"></textarea>
+            <textarea class="form-control" name="code" spellcheck="false" id="exampleFormControlTextarea1" rows="28" style="background-color: mediumblue; color: yellow;"></textarea>
         </div>
 
-        <label for="lang">Choose a Language:</label>
-        <select class="btn btn-primary" id="lang" name="lang">
-            <option value="CPP14">CPP14</option>
-            <option value="JAVA8">JAVA8(class = Main)</option>
-            <option value="Python3">Python3</option>
-        </select>
+        <div class="form-inline">
+            <div class="form-group mb-2">
+                <label for="exampleFormControlTextarea2"  class="col-sm-2 col-form-label">Input</label>
+                <textarea class="form-control" name="input" rows="5" spellcheck="false" id="exampleFormControlTextarea2" style="background-color: rgb(180, 225, 226); color: rgb(15, 0, 10); width: 500px;"></textarea>
+            </div>
 
-        <button class="btn btn-secondary" type="submit">submit</button>
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="lang"  class="col-sm-10 col-form-label">Choose a Language:</label>
+                <select class="btn btn-primary" id="lang" name="lang">
+                    <option value="CPP14">CPP14</option>
+                    <option value="JAVA8">JAVA8(class = Main)</option>
+                    <option value="Python3">Python3</option>
+                </select>
+
+                <button class="btn btn-secondary" type="submit">submit</button>
+            </div>
+        </div>
     </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
