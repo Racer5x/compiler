@@ -21,69 +21,76 @@ app.post("/", function(req, res){
     let code = req.body.code;
     let input = req.body.input;
 
-    if (lang == "CPP14") {
+    fs.writeFile('input.txt', input, function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            if (lang == "CPP14") {
 
-        fs.writeFile('a.cpp', code, function(err){
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Successfully written to a.cpp");
-
-                //now executing the program present in a.cpp
-                cp.exec("g++ a.cpp -o a.exe&a.exe", function(error, stdout, stderr){
-                    if (error) {
-                        res.send(error);
-                    } else if (stderr) {
-                        res.send(stderr);
+                fs.writeFile('a.cpp', code, function(err){
+                    if (err) {
+                        console.log(err);
                     } else {
-                        res.send(stdout);
-                    }
-                });
-            }
-        });
-    } 
-    else if (lang == "Python3") {
-
-        fs.writeFile('a.py', code, function(err){
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Successfully written to a.py");
-
-                //now executing the program present in a.cpp
-                cp.exec("python a.py", function(error, stdout, stderr){
-                    if (error) {
-                        res.send(error);
-                    } else if (stderr) {
-                        res.send(stderr);
-                    } else {
-                        res.send(stdout);
-                    }
-                });
-            }
-        });
-    }
-    else {
+                        console.log("Successfully written to a.cpp");
         
-        fs.writeFile('a.java', code, function(err){
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Successfully written to a.java");
-
-                //now executing the program present in a.py
-                cp.exec("javac " + __dirname +  "/a.java & java Main", function(error, stdout, stderr){
-                    if (error) {
-                        res.send(error);
-                    } else if (stderr) {
-                        res.send(stderr);
+                        //now executing the program present in a.cpp
+                        cp.exec("g++ a.cpp -o a.exe & a.exe < input.txt", function(error, stdout, stderr){
+                            if (error) {
+                                res.send(error);
+                            } else if (stderr) {
+                                res.send(stderr);
+                            } else {
+                                res.send(stdout);
+                            }
+                        });
+                    }
+                });
+            } 
+            else if (lang == "Python3") {
+        
+                fs.writeFile('a.py', code, function(err){
+                    if (err) {
+                        console.log(err);
                     } else {
-                        res.send(stdout);
+                        console.log("Successfully written to a.py");
+        
+                        //now executing the program present in a.cpp
+                        cp.exec("python a.py < input.txt", function(error, stdout, stderr){
+                            if (error) {
+                                console.log(error);
+                                res.send(error);
+                            } else if (stderr) {
+                                res.send(stderr);
+                            } else {
+                                res.send(stdout);
+                            }
+                        });
                     }
                 });
             }
-        });
-    }
+            else {
+                
+                fs.writeFile('a.java', code, function(err){
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Successfully written to a.java");
+        
+                        //now executing the program present in a.py
+                        cp.exec("javac a.java & java Main < input.txt", function(error, stdout, stderr){
+                            if (error) {
+                                res.send(error);
+                            } else if (stderr) {
+                                res.send(stderr);
+                            } else {
+                                res.send(stdout);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
 });
 
 app.listen(3000, function(){
