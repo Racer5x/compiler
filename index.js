@@ -21,20 +21,20 @@ app.post("/", function(req, res){
     let code = req.body.code;
     let input = req.body.input;
 
-    fs.writeFile('input.txt', input, function(err){
+    fs.writeFile(__dirname + '/prog/input.txt', input, function(err){
         if (err) {
             console.log(err);
         } else {
             if (lang == "CPP14") {
 
-                fs.writeFile('a.cpp', code, function(err){
+                fs.writeFile(__dirname + '/prog/a.cpp', code, function(err){
                     if (err) {
                         console.log(err);
                     } else {
                         console.log("Successfully written to a.cpp");
         
                         //now executing the program present in a.cpp
-                        cp.exec("g++ a.cpp -o a.exe & a.exe < input.txt", function(error, stdout, stderr){
+                        cp.exec("cd prog & g++ a.cpp -o a.exe & a.exe < input.txt", function(error, stdout, stderr){
                             if (error) {
                                 res.send(error);
                             } else if (stderr) {
@@ -48,14 +48,14 @@ app.post("/", function(req, res){
             } 
             else if (lang == "Python3") {
         
-                fs.writeFile('a.py', code, function(err){
+                fs.writeFile(__dirname + '/prog/a.py', code, function(err){
                     if (err) {
                         console.log(err);
                     } else {
                         console.log("Successfully written to a.py");
         
                         //now executing the program present in a.cpp
-                        cp.exec("python a.py < input.txt", function(error, stdout, stderr){
+                        cp.exec("cd prog & python a.py < input.txt", function(error, stdout, stderr){
                             if (error) {
                                 console.log(error);
                                 res.send(error);
@@ -70,15 +70,16 @@ app.post("/", function(req, res){
             }
             else {
                 
-                fs.writeFile('a.java', code, function(err){
+                fs.writeFile(__dirname + '/prog/a.java', code, function(err){
                     if (err) {
                         console.log(err);
                     } else {
                         console.log("Successfully written to a.java");
         
                         //now executing the program present in a.py
-                        cp.exec("javac a.java & java Main < input.txt", function(error, stdout, stderr){
+                        cp.exec("cd prog & javac a.java & java Main < input.txt", function(error, stdout, stderr){
                             if (error) {
+                                console.log(error);
                                 res.send(error);
                             } else if (stderr) {
                                 res.send(stderr);
