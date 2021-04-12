@@ -1,6 +1,5 @@
 const express = require('express');
 const ejs = require('ejs');
-const readline = require('readline');
 const cp = require('child_process');
 const fs = require('fs');
 

@@ -36,8 +36,7 @@ signed main()
 
     int n;
     cin>>n;
-
-    vi v(n);
+     vi v(n);
     for(int &x: v) cin>>x;
         sort(all(v));
 
